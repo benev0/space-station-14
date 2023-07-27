@@ -3,6 +3,10 @@
   name: job-name-librarian
   description: job-description-librarian
   playTimeTracker: JobLibrarian
+  requirements:
+    - !type:DepartmentTimeRequirement
+      department: Civilian
+      time: 1800
   startingGear: LibrarianGear
   icon: "Librarian"
   supervisors: job-supervisors-hop
