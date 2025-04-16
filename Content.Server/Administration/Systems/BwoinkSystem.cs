@@ -185,10 +185,12 @@ namespace Content.Server.Administration.Systems
                 // check if the username has been banned
                 var lookup = await _playerLocator.LookupIdAsync(e.Session.UserId);
 
-                if (lookup != null) {
-                    var usernameBanReason = _usernameRules.IsUsernameBannedAsync(lookup.Username);
-                    if (usernameBanReason != null) {
-                        var banMessage = Loc.GetString("bwoink-system-username-banned", ("banReason", usernameBanReason));
+                if (lookup != null)
+                {
+                    var usernameBanReason = await _usernameRules.IsUsernameBannedAsync(lookup.Username);
+                    if (usernameBanReason.IsBanned)
+                    {
+                        var banMessage = Loc.GetString("bwoink-system-username-banned", ("banReason", usernameBanReason.Message));
                         NotifyAdmins(e.Session, banMessage, PlayerStatusType.Banned);
                         _activeConversations.Remove(e.Session.UserId);
                         return;
